@@ -1,30 +1,25 @@
 import { useEffect } from "react";
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import "./MasonryLayout.css";
 
 export default function MasonryLayout({ imageList }) {
-  useEffect(() => {
-    const masonryItems = document.querySelectorAll(".masonry-item");
-
-    // Set the height of each masonry item based on its width and aspect ratio of the image
-    masonryItems.forEach(function (item) {
-      const image = item.closest(".masonry-image");
-      if (image) {
-        item.style.height = image.offsetWidth * 0.75 + "px";
-      } // 0.75 is an example aspect ratio, you can adjust it based on your images
-    });
-  }, [imageList]);
-
   return (
     <div className="masonry-container">
-      {imageList.map((item) => (
-        <div className="masonry-item" key={item._id}>
-          <img
-            className="masonry-image"
-            src={`https://${process.env.REACT_APP_DOMAIN_URL}/${item.path}`}
-            alt={item.originalName}
-          ></img>
-        </div>
-      ))}
+      <ResponsiveMasonry
+        columnsCountBreakPoints={{ 200: 1, 450: 2, 650: 3, 850: 4 }}
+      >
+        <Masonry gutter="10px">
+          {imageList.map((item) => (
+            <div className="masonry-item" key={item._id}>
+              <img
+                className="masonry-image"
+                src={`https://${process.env.REACT_APP_DOMAIN_URL}/${item.path}`}
+                alt={item.originalName}
+              ></img>
+            </div>
+          ))}
+        </Masonry>
+      </ResponsiveMasonry>
     </div>
   );
 }
