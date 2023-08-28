@@ -1,15 +1,17 @@
 .masonry-container {
     display: grid;
     grid-gap: 10px; /* Set the gap between masonry items */
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Set the column width */
+    grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); 
   }
   
   .masonry-item {
     margin-bottom: 10px; /* Set the margin between masonry items */
+
   }
   
   .masonry-item img {
     width: 100%;
     height: auto;
+    border-radius: 15px;
   }
   
