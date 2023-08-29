@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+import Modal from "./Modal";
 import "./MasonryLayout.css";
 
 export default function MasonryLayout({
@@ -8,7 +9,8 @@ export default function MasonryLayout({
   onDeleteImageError,
 }) {
   const [hoverStates, setHoverStates] = useState();
-  const [deleteAPIInvoked, setDeleteAPIInvoked] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
   useEffect(() => {
     let _hoverStates = {};
     for (const image of imageList) {
@@ -17,9 +19,8 @@ export default function MasonryLayout({
     setHoverStates(_hoverStates);
   }, [imageList]);
 
-  const handleDeleteImage = async function (id) {
+  const invokeDeleteAPI = async function (id) {
     const url = `https://${process.env.REACT_APP_DOMAIN_URL}/api/v1/images/${id}`;
-    setDeleteAPIInvoked(true);
     try {
       const response = await fetch(url, {
         method: "DELETE",
@@ -31,6 +32,19 @@ export default function MasonryLayout({
       console.error(error);
       onDeleteImageError();
     }
+  };
+
+  const onDeleteImageConfirm = function () {
+    invokeDeleteAPI(showDeleteModal);
+    setShowDeleteModal(false);
+  };
+
+  const onDeleteImageCancel = function () {
+    setShowDeleteModal(false);
+  };
+
+  const handleDeleteImage = function (id) {
+    setShowDeleteModal(id);
   };
 
   return (
@@ -73,6 +87,18 @@ export default function MasonryLayout({
           ))}
         </Masonry>
       </ResponsiveMasonry>
+      {showDeleteModal ? (
+        <Modal
+          modalTitle="Are you sure?"
+          showCancelButton={true}
+          submitButtonClassName="delete-confirm-button"
+          submitButtonTitle="Confirm"
+          onHandleSubmitClick={() => onDeleteImageConfirm()}
+          onHandleCancelClick={() => onDeleteImageCancel()}
+        >
+          Please confirm if you want to delete the image
+        </Modal>
+      ) : null}
     </div>
   );
 }

@@ -22,7 +22,6 @@ function App() {
   };
   const getAllImages = useCallback(async () => {
     const url = `https://${process.env.REACT_APP_DOMAIN_URL}/api/v1/images`;
-    if (imagesAPIInvoked) return;
 
     imagesAPIInvoked = true;
     try {
@@ -40,7 +39,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    getAllImages();
+    if (!imagesAPIInvoked) getAllImages();
   }, [getAllImages]);
 
   const onError = function (message) {

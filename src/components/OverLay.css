@@ -1,0 +1,9 @@
+.overlay-container{
+    position: fixed;
+    width: 100vw;
+    background-color: rgb(50 61 73 / 55%);
+    height: 100vh;
+    z-index: 10;
+    top:0;
+    left:0;
+}
