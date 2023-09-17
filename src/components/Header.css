@@ -6,6 +6,35 @@
   justify-content: space-between;
 }
 
+.upload-modal-label-container {
+  padding-bottom: 20px;
+}
+
+.upload-photo-label {
+  font-family: Noto Sans;
+  line-height: 30px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #333333;
+}
+
+.upload-photo-label-input {
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid #4f4f4f;
+  color: #bdbdbd;
+  width: 100%;
+}
+
+.upload-photo-label-input:active,
+.upload-photo-label-input:focus {
+  border: 1px solid #3db46d;
+}
+
+.upload-button-container {
+  margin: 10px 0;
+}
+
 .upload-button {
   padding: 10px;
   background-color: #3db46d;

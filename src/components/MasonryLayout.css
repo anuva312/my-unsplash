@@ -1,48 +1,47 @@
 .masonry-container {
-    margin: 10px auto;
-  }
-  
-  .masonry-item {
-    margin-bottom: 10px;
-    position: relative;
-  }
+  margin: 10px auto;
+}
 
-  .masonry-item-overlay{
-    position: absolute; 
-    background: #00000047;
-    width: 100%;
-    height: 100%;
-    border-radius: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
+.masonry-item {
+  margin-bottom: 10px;
+  position: relative;
+}
 
-  .masonry-item-name{
-    font-family: Montserrat;
-    font-weight: 600;
-    text-align: left;
-    font-size: 16px;
-    color: #FFFFFF;
-    word-break: break-all;
-    padding: 5px;
-  }
+.masonry-item-overlay {
+  position: absolute;
+  background: #00000047;
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 
-  .masonry-item-delete-btn{
-    color: #EB5757;
-    width: 63px;
-    height: 23px;
-    border-radius: 38px;
-    border: 1px solid #EB5757;
-    background-color: transparent;
-    margin: 5px;
-    float: right;
-    font-weight: 600; 
-  }
+.masonry-item-name {
+  font-family: Montserrat;
+  font-weight: 600;
+  text-align: left;
+  font-size: 16px;
+  color: #ffffff;
+  word-break: break-all;
+  padding: 5px;
+}
 
-  .masonry-item img {
-    width: 100%;
-    height: 100%;
-    border-radius: 15px;
-  }
-  
+.masonry-item-delete-btn {
+  color: #eb5757;
+  width: 63px;
+  height: 23px;
+  border-radius: 38px;
+  border: 1px solid #eb5757;
+  background-color: transparent;
+  margin: 5px;
+  float: right;
+  font-weight: 600;
+}
+
+.masonry-item img {
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+}

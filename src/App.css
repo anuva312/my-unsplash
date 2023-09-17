@@ -11,6 +11,14 @@
   color: #736d62;
 }
 
+.main-loader-container {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  top: 0;
+}
+
 button {
   border: none;
   cursor: pointer;

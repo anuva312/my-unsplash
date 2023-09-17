@@ -1,4 +1,5 @@
 import OverLay from "./OverLay";
+import Loader from "./Loader";
 import "./Modal.css";
 
 export default function Modal({
@@ -9,6 +10,9 @@ export default function Modal({
   submitButtonTitle = "Submit",
   onHandleSubmitClick,
   onHandleCancelClick,
+  submitDisableCondition,
+  showLoader,
+  loaderMessage = "Loading...",
 }) {
   const handleSubmitClick = function (event) {
     event.preventDefault();
@@ -16,28 +20,35 @@ export default function Modal({
   };
 
   return (
-    <div>
+    <div className="modal-outer-container">
       <OverLay onOverLayClick={onHandleCancelClick} />
       <form className="modal-container" onSubmit={handleSubmitClick}>
-        <div className="modal-title">{modalTitle}</div>
-        <div className="modal-body">{children}</div>
-        <div className="modal-footer">
-          {showCancelButton ? (
-            <button
-              type="button"
-              className="modal-cancel-button"
-              onClick={() => onHandleCancelClick()}
-            >
-              Cancel
-            </button>
-          ) : null}
-          <button
-            type="submit"
-            className={`modal-submit-button ${submitButtonClassName || ""}`}
-          >
-            {submitButtonTitle}
-          </button>
+        <div className="modal-title">
+          {showLoader ? loaderMessage : modalTitle}
         </div>
+        <div className="modal-body">
+          {showLoader ? <Loader showOverLay={false}></Loader> : children}
+        </div>
+        {!showLoader ? (
+          <div className="modal-footer">
+            {showCancelButton ? (
+              <button
+                type="button"
+                className="modal-cancel-button"
+                onClick={() => onHandleCancelClick()}
+              >
+                Cancel
+              </button>
+            ) : null}
+            <button
+              type="submit"
+              className={`modal-submit-button ${submitButtonClassName || ""}`}
+              disabled={submitDisableCondition}
+            >
+              {submitButtonTitle}
+            </button>
+          </div>
+        ) : null}
       </form>
     </div>
   );

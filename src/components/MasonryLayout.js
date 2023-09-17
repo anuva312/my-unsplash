@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import Modal from "./Modal";
+import Loader from "./Loader";
 import "./MasonryLayout.css";
 
 export default function MasonryLayout({
@@ -11,6 +12,7 @@ export default function MasonryLayout({
 }) {
   const [hoverStates, setHoverStates] = useState();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showDeleteLoader, setShowDeleteLoader] = useState(false);
 
   useEffect(() => {
     let _hoverStates = {};
@@ -22,15 +24,17 @@ export default function MasonryLayout({
 
   const invokeDeleteAPI = async function (id) {
     const url = `${domainUrl}/api/v1/images/${id}`;
+    setShowDeleteLoader(true);
     try {
-      const response = await fetch(url, {
+      await fetch(url, {
         method: "DELETE",
         mode: "cors",
       });
-      console.log(response);
+      setShowDeleteLoader(false);
       onDeleteImageSuccess();
     } catch (error) {
       console.error(error);
+      setShowDeleteLoader(false);
       onDeleteImageError();
     }
   };
@@ -99,6 +103,9 @@ export default function MasonryLayout({
         >
           Please confirm if you want to delete the image
         </Modal>
+      ) : null}
+      {showDeleteLoader ? (
+        <Loader loaderContainerClassName="main-loader-container"></Loader>
       ) : null}
     </div>
   );

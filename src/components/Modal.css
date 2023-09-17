@@ -1,66 +1,76 @@
-.modal-container{
-    position: fixed;
-    left:calc(50% - 280px);
-    top : 20%;
-    width: 500px;
-    z-index:15;
-    background: #FFFFFF;
-    border-radius: 12px;
-    padding: 15px;
+.modal-container {
+  position: fixed;
+  left: calc(50% - 280px);
+  top: 20%;
+  width: 500px;
+  z-index: 15;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 15px;
 }
 
-.modal-title{
-    font-family: Noto Sans;
-    font-size: 22px;
-    font-weight: 500;
-    text-align: left;
-    color: #333333;
+.modal-outer-container {
+  position: relative;
 }
 
-.modal-body{
-    min-height: 50px;
-    padding: 10px 0;
-    font-family: Noto Sans;
-    font-size: 14px;
-    text-align: left;
-    color: #333333;
+.modal-loader-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
 }
 
-.modal-footer{
-    display: flex;
-    align-items: center;
-    align-content: center;
-    justify-content: right;
-    gap:15px;
+.modal-title {
+  font-family: Noto Sans;
+  font-size: 22px;
+  font-weight: 500;
+  text-align: left;
+  color: #333333;
 }
 
-.modal-container button{
-    cursor: pointer;    
-    background: transparent;
-    border: none;
-    font-family: Noto Sans;
-    font-size: 14px;
-    font-weight: 500;
-    text-align: left;
-    border-radius: 12px;
-    padding: 10px;
+.modal-body {
+  min-height: 50px;
+  padding: 10px 0;
+  font-family: Noto Sans;
+  font-size: 14px;
+  text-align: left;
+  color: #333333;
 }
 
-.modal-container button.modal-cancel-button{
-    color:#BDBDBD;
+.modal-footer {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: right;
+  gap: 15px;
 }
 
-.modal-container button.modal-submit-button{
-    background-color: #3DB46D;
-    color: #FFFFFF;
+.modal-container button {
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  font-family: Noto Sans;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  border-radius: 12px;
+  padding: 10px;
 }
 
+.modal-container button.modal-cancel-button {
+  color: #bdbdbd;
+}
+
+.modal-container button.modal-submit-button {
+  background-color: #3db46d;
+  color: #ffffff;
+}
 
 @media only screen and (max-width: 700px) {
-    .modal-container {
-      min-width: 200px;
-      width: calc(80vw - 50px);
-      left: 10vw;
-    }
-
+  .modal-container {
+    min-width: 200px;
+    width: calc(80vw - 50px);
+    left: 10vw;
   }
+}
