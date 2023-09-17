@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import MasonryLayout from "./components/MasonryLayout";
+import Header from "./components/Header";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
@@ -9,6 +10,11 @@ let imagesAPIInvoked = false;
 function App() {
   const [allImages, setAllImages] = useState([]);
   const [filteredImages, setFilteredImages] = useState([]);
+  let domainURL = `https://${process.env.REACT_APP_PROD_URL}`;
+
+  if (process.env.NODE_ENV === "development") {
+    domainURL = `http://${process.env.REACT_APP_DEV_URL}`;
+  }
 
   const onGetImagesSuccess = function (data) {
     if (data?.images) {
@@ -21,7 +27,7 @@ function App() {
     }
   };
   const getAllImages = useCallback(async () => {
-    const url = `https://${process.env.REACT_APP_DOMAIN_URL}/api/v1/images`;
+    const url = `${domainURL}/api/v1/images`;
 
     imagesAPIInvoked = true;
     try {
@@ -34,9 +40,9 @@ function App() {
       onGetImagesSuccess(response.data);
     } catch (error) {
       console.error(error);
-      onError("Unable to get images image!");
+      onError("Unable to get images!");
     }
-  }, []);
+  }, [domainURL]);
 
   useEffect(() => {
     if (!imagesAPIInvoked) getAllImages();
@@ -54,6 +60,11 @@ function App() {
     });
   };
 
+  const onUploadSuccess = function () {
+    setAllImages([]);
+    getAllImages();
+  };
+
   const onDeleteImageSuccess = function () {
     onSuccess("Image Deleted Successfully");
     getAllImages();
@@ -62,7 +73,17 @@ function App() {
   return (
     <div className="my-unsplash">
       <ToastContainer />
+      <Header
+        domainUrl={domainURL}
+        onUploadError={onError}
+        onUploadSuccess={onUploadSuccess}
+      ></Header>
+
+      {!allImages?.length ? (
+        <div className="no-data-message">No Images Uploaded....</div>
+      ) : null}
       <MasonryLayout
+        domainUrl={domainURL}
         imageList={filteredImages}
         onDeleteImageSuccess={onDeleteImageSuccess}
         onDeleteImageError={() => onError("Unable to delete the image")}

@@ -1,0 +1,20 @@
+.header-container {
+  min-height: 70px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.upload-button {
+  padding: 10px;
+  background-color: #3db46d;
+  color: #ffffff;
+  font-family: Noto Sans;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 19px;
+  letter-spacing: 0em;
+  text-align: center;
+  border-radius: 12px;
+}

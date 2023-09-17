@@ -4,6 +4,7 @@ import Modal from "./Modal";
 import "./MasonryLayout.css";
 
 export default function MasonryLayout({
+  domainUrl,
   imageList,
   onDeleteImageSuccess,
   onDeleteImageError,
@@ -20,7 +21,7 @@ export default function MasonryLayout({
   }, [imageList]);
 
   const invokeDeleteAPI = async function (id) {
-    const url = `https://${process.env.REACT_APP_DOMAIN_URL}/api/v1/images/${id}`;
+    const url = `${domainUrl}/api/v1/images/${id}`;
     try {
       const response = await fetch(url, {
         method: "DELETE",
@@ -80,7 +81,7 @@ export default function MasonryLayout({
               ) : null}
               <img
                 className="masonry-image"
-                src={`https://${process.env.REACT_APP_DOMAIN_URL}${item.path}`}
+                src={`${domainUrl}${item.path}`}
                 alt={item.originalName}
               ></img>
             </div>

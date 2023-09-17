@@ -1,4 +1,22 @@
-.my-unsplash{
+.my-unsplash {
   max-width: 1400px;
   margin: 0 auto;
+  padding: 10px 20px;
+}
+
+.no-data-message {
+  width: 100%;
+  text-align: center;
+  font-style: italic;
+  color: #736d62;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+}
+
+input[type="file"] {
+  opacity: 0;
+  width: 0px;
 }
