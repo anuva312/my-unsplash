@@ -5,6 +5,11 @@
 .masonry-item {
   margin-bottom: 10px;
   position: relative;
+  min-width: 100px;
+  min-height: 100px;
+  background-color: whitesmoke;
+  border-radius: 15px;
+  overflow: hidden;
 }
 
 .masonry-item-overlay {
