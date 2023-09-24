@@ -3,7 +3,13 @@ import ChooseFiles from "./ChooseFiles";
 import Modal from "./Modal";
 import { useState } from "react";
 
-export default function Header({ domainUrl, onUploadSuccess, onUploadError }) {
+export default function Header({
+  domainUrl,
+  onUploadSuccess,
+  onUploadError,
+  handleSearchChange,
+  defaultSearchValue,
+}) {
   const countOfFilesSupported = 1;
   const fileFormatsSupported = ["jpeg", "jpg", "png"];
 
@@ -25,12 +31,19 @@ export default function Header({ domainUrl, onUploadSuccess, onUploadError }) {
       ).json();
       setShowUploadModal(false);
       setShowUploadLoader(false);
+      clearUploadedFiles();
       onUploadSuccess(response.data, response.image);
     } catch (error) {
       console.error(error);
       setShowUploadLoader(false);
+      clearUploadedFiles();
       onUploadError("Unable to upload image!");
     }
+  };
+
+  const clearUploadedFiles = function () {
+    setPhotoLabel("");
+    setUploadedFile(null);
   };
 
   const onUpload = function (files) {
@@ -54,6 +67,7 @@ export default function Header({ domainUrl, onUploadSuccess, onUploadError }) {
 
   const onUploadCancel = function () {
     setShowUploadModal(false);
+    clearUploadedFiles();
   };
 
   return (
@@ -91,7 +105,22 @@ export default function Header({ domainUrl, onUploadSuccess, onUploadError }) {
           </div>
         </Modal>
       ) : null}
-      <div className="logo-container"></div>
+      <div className="left-header-inner-container">
+        <div className="logo-container">
+          <img
+            src={`/images/my_unsplash_logo.svg`}
+            alt="my-unsplash-logo"
+          ></img>
+        </div>
+        <div className="search-box-container">
+          <input
+            name="search-box"
+            className="search-input"
+            onChange={handleSearchChange}
+            placeholder="Search by name"
+          ></input>
+        </div>
+      </div>
       <div>
         <button
           className="upload-button"

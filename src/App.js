@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
 let imagesAPIInvoked = false;
+let searchValue = "";
 
 function App() {
   const [allImages, setAllImages] = useState([]);
@@ -25,7 +26,7 @@ function App() {
         (a, b) => new Date(b.lastUpdatedTime) - new Date(a.lastUpdatedTime)
       );
       setAllImages(data.images);
-      setFilteredImages(data.images);
+      filterImages(searchValue, data.images);
     }
   };
   const getAllImages = useCallback(async () => {
@@ -74,6 +75,13 @@ function App() {
     getAllImages();
   };
 
+  const filterImages = function (newVal, images = allImages) {
+    const filteredImages = images.filter((image) =>
+      image.originalName.toLowerCase().includes(newVal.toLowerCase())
+    );
+    setFilteredImages(filteredImages);
+  };
+
   return (
     <div className="my-unsplash">
       <ToastContainer />
@@ -81,10 +89,15 @@ function App() {
         domainUrl={domainURL}
         onUploadError={onError}
         onUploadSuccess={onUploadSuccess}
+        handleSearchChange={(event) => {
+          const newValue = event.target.value;
+          searchValue = newValue;
+          filterImages(newValue);
+        }}
       ></Header>
 
-      {!allImages?.length ? (
-        <div className="no-data-message">No Images Uploaded....</div>
+      {!filteredImages?.length ? (
+        <div className="no-data-message">No images to show...</div>
       ) : null}
       <MasonryLayout
         domainUrl={domainURL}

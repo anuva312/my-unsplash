@@ -6,6 +6,12 @@
   justify-content: space-between;
 }
 
+.left-header-inner-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
 .upload-modal-label-container {
   padding-bottom: 20px;
 }
@@ -46,4 +52,14 @@
   letter-spacing: 0em;
   text-align: center;
   border-radius: 12px;
+}
+
+.search-input {
+  padding: 12px;
+  align-self: center;
+  border: 1px solid #bdbdbd;
+  /* color: #bdbdbd; */
+  border-radius: 15px;
+  outline: none;
+  width: 300px;
 }
