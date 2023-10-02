@@ -58,8 +58,12 @@
   padding: 12px;
   align-self: center;
   border: 1px solid #bdbdbd;
-  /* color: #bdbdbd; */
   border-radius: 15px;
   outline: none;
   width: 300px;
+}
+
+.search-input:focus,
+.search-input:active {
+  border-width: 2px;
 }

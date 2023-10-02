@@ -71,7 +71,7 @@ export default function Header({
   };
 
   return (
-    <div className="header-container">
+    <div>
       {showUploadModal ? (
         <Modal
           modalTitle="Add a new photo"
@@ -105,29 +105,31 @@ export default function Header({
           </div>
         </Modal>
       ) : null}
-      <div className="left-header-inner-container">
-        <div className="logo-container">
-          <img
-            src={`/images/my_unsplash_logo.svg`}
-            alt="my-unsplash-logo"
-          ></img>
+      <div className="header-container">
+        <div className="left-header-inner-container">
+          <div className="logo-container">
+            <img
+              src={`/images/my_unsplash_logo.svg`}
+              alt="my-unsplash-logo"
+            ></img>
+          </div>
+          <div className="search-box-container">
+            <input
+              name="search-box"
+              className="search-input"
+              onChange={handleSearchChange}
+              placeholder="Search by name"
+            ></input>
+          </div>
         </div>
-        <div className="search-box-container">
-          <input
-            name="search-box"
-            className="search-input"
-            onChange={handleSearchChange}
-            placeholder="Search by name"
-          ></input>
+        <div>
+          <button
+            className="upload-button"
+            onClick={() => setShowUploadModal(true)}
+          >
+            Add a photo
+          </button>
         </div>
-      </div>
-      <div>
-        <button
-          className="upload-button"
-          onClick={() => setShowUploadModal(true)}
-        >
-          Add a photo
-        </button>
       </div>
     </div>
   );
