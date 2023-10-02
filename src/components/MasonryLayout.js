@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import Modal from "./Modal";
 import Loader from "./Loader";
@@ -10,17 +10,8 @@ export default function MasonryLayout({
   onDeleteImageSuccess,
   onDeleteImageError,
 }) {
-  const [hoverStates, setHoverStates] = useState();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showDeleteLoader, setShowDeleteLoader] = useState(false);
-
-  useEffect(() => {
-    let _hoverStates = {};
-    for (const image of imageList) {
-      _hoverStates[image._id] = false;
-    }
-    setHoverStates(_hoverStates);
-  }, [imageList]);
 
   const invokeDeleteAPI = async function (id) {
     const url = `${domainUrl}/api/v1/images/${id}`;
@@ -59,30 +50,19 @@ export default function MasonryLayout({
       >
         <Masonry gutter="20px">
           {imageList.map((item) => (
-            <div
-              className="masonry-item"
-              key={item._id}
-              onMouseEnter={() =>
-                setHoverStates({ ...hoverStates, [item._id]: true })
-              }
-              onMouseLeave={() =>
-                setHoverStates({ ...hoverStates, [item._id]: false })
-              }
-            >
-              {hoverStates[item._id] ? (
-                <div className="masonry-item-overlay">
-                  <div>
-                    <button
-                      type="button"
-                      className="masonry-item-delete-btn"
-                      onClick={() => handleDeleteImage(item._id)}
-                    >
-                      delete
-                    </button>
-                  </div>
-                  <div className="masonry-item-name">{item.originalName}</div>
+            <div className="masonry-item" key={item._id}>
+              <div className="masonry-item-overlay">
+                <div>
+                  <button
+                    type="button"
+                    className="masonry-item-delete-btn"
+                    onClick={() => handleDeleteImage(item._id)}
+                  >
+                    delete
+                  </button>
                 </div>
-              ) : null}
+                <div className="masonry-item-name">{item.originalName}</div>
+              </div>
               <img
                 className="masonry-image"
                 src={`${domainUrl}${item.path}`}

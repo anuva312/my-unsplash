@@ -21,6 +21,11 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  opacity: 0;
+}
+
+.masonry-item-overlay:hover {
+  opacity: 1;
 }
 
 .masonry-item-name {
