@@ -11,21 +11,21 @@ export default function MasonryLayout({
   onDeleteImageError,
 }) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [showDeleteLoader, setShowDeleteLoader] = useState(false);
+  const [isWaitingDeletion, setIsWaitingDeletion] = useState(false);
 
   const invokeDeleteAPI = async function (id) {
     const url = `${domainUrl}/api/v1/images/${id}`;
-    setShowDeleteLoader(true);
+    setIsWaitingDeletion(true);
     try {
       await fetch(url, {
         method: "DELETE",
         mode: "cors",
       });
-      setShowDeleteLoader(false);
+      setIsWaitingDeletion(false);
       onDeleteImageSuccess();
     } catch (error) {
       console.error(error);
-      setShowDeleteLoader(false);
+      setIsWaitingDeletion(false);
       onDeleteImageError();
     }
   };
@@ -42,6 +42,12 @@ export default function MasonryLayout({
   const handleDeleteImage = function (id) {
     setShowDeleteModal(id);
   };
+
+  const showLoader = function(){
+    return (
+      <Loader loaderContainerClassName="main-loader-container"></Loader>
+    )
+  }
 
   return (
     <div className="masonry-container">
@@ -84,9 +90,7 @@ export default function MasonryLayout({
           Please confirm if you want to delete the image
         </Modal>
       ) : null}
-      {showDeleteLoader ? (
-        <Loader loaderContainerClassName="main-loader-container"></Loader>
-      ) : null}
+      {isWaitingDeletion ? showLoader() : null}
     </div>
   );
 }

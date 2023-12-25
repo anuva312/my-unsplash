@@ -6,13 +6,13 @@ import Loader from "./components/Loader";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
-let imagesAPIInvoked = false;
+let isImagesAPIInvoked = false;
 let searchValue = "";
 
 function App() {
   const [allImages, setAllImages] = useState([]);
   const [filteredImages, setFilteredImages] = useState([]);
-  const [showLoader, setShowLoader] = useState(false);
+  const [isWaitingForImages, setIsWaitingForImages] = useState(false);
 
   let domainURL = `https://${process.env.REACT_APP_PROD_URL}`;
 
@@ -20,19 +20,10 @@ function App() {
     domainURL = `http://${process.env.REACT_APP_DEV_URL}`;
   }
 
-  const onGetImagesSuccess = function (data) {
-    if (data?.images) {
-      data.images.sort(
-        (a, b) => new Date(b.lastUpdatedTime) - new Date(a.lastUpdatedTime)
-      );
-      setAllImages(data.images);
-      filterImages(searchValue, data.images);
-    }
-  };
   const getAllImages = useCallback(async () => {
     const url = `${domainURL}/api/v1/images`;
-    setShowLoader(true);
-    imagesAPIInvoked = true;
+    setIsWaitingForImages(true);
+    isImagesAPIInvoked = true;
     try {
       const response = await (
         await fetch(url, {
@@ -40,27 +31,49 @@ function App() {
           mode: "cors",
         })
       ).json();
-      setShowLoader(false);
-      onGetImagesSuccess(response.data);
+      setIsWaitingForImages(false);
+      onGetImagesSuccess(response.data?.images);
     } catch (error) {
       console.error(error);
-      setShowLoader(false);
+      setIsWaitingForImages(false);
       onError("Unable to get images!");
     }
   }, [domainURL]);
 
+  const onGetImagesSuccess = function (images) {
+    if (images) {
+      images.sort(
+        (a, b) => new Date(b.lastUpdatedTime) - new Date(a.lastUpdatedTime)
+      );
+      setAllImages(images);
+      filterImages(searchValue, images);
+    }
+  };
+
+  const filterImages = function (newVal, images = allImages) {
+    const filteredImages = images.filter((image) =>
+      image.originalName.toLowerCase().includes(newVal.toLowerCase())
+    );
+    setFilteredImages(filteredImages);
+  };
+
   useEffect(() => {
-    if (!imagesAPIInvoked) getAllImages();
+    if (!isImagesAPIInvoked) getAllImages();
   }, [getAllImages]);
 
-  const onError = function (message) {
-    toast.error(message, {
-      theme: "colored",
-    });
+  const onDeleteImageSuccess = function () {
+    onSuccess("Image Deleted Successfully");
+    getAllImages();
   };
 
   const onSuccess = function (message) {
     toast.success(message, {
+      theme: "colored",
+    });
+  };
+
+  const onError = function (message) {
+    toast.error(message, {
       theme: "colored",
     });
   };
@@ -70,17 +83,18 @@ function App() {
     getAllImages();
   };
 
-  const onDeleteImageSuccess = function () {
-    onSuccess("Image Deleted Successfully");
-    getAllImages();
-  };
 
-  const filterImages = function (newVal, images = allImages) {
-    const filteredImages = images.filter((image) =>
-      image.originalName.toLowerCase().includes(newVal.toLowerCase())
-    );
-    setFilteredImages(filteredImages);
-  };
+  const handleNoImagesAvailable = function () {
+    return !filteredImages?.length ? (
+      <div className="no-data-message">No images to show...</div>
+    ) : null
+  }
+
+  const showLoader = function(){
+    return (
+      <Loader loaderContainerClassName="main-loader-container"></Loader>
+    )
+  }
 
   return (
     <div className="my-unsplash">
@@ -96,9 +110,7 @@ function App() {
         }}
       ></Header>
 
-      {!filteredImages?.length ? (
-        <div className="no-data-message">No images to show...</div>
-      ) : null}
+      {handleNoImagesAvailable()}
       <MasonryLayout
         domainUrl={domainURL}
         imageList={filteredImages}
@@ -106,9 +118,7 @@ function App() {
         onDeleteImageError={() => onError("Unable to delete the image")}
       ></MasonryLayout>
 
-      {showLoader ? (
-        <Loader loaderContainerClassName="main-loader-container"></Loader>
-      ) : null}
+      {isWaitingForImages ? showLoader() : null}
     </div>
   );
 }
